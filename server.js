@@ -8,26 +8,30 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//get questions
-app.get('/qa/:product_id', (req, res) => {
-  const {product_id} = req.params;
-  queries.listQuestions(function(err, results) {
-    if (err) {
-      res.status(400).send(err)
-    }
-    res.send(results.rows)
-  }, product_id)
-});
 
 //get answers
-app.get('/qa/:question_id/answers', (req, res) => {
-  const {question_id} = req.params;
+app.get('/qa/:question_id/answers/:count?', (req, res) => {
+  const {question_id, count} = req.params;
+  console.log(count)
   queries.listAnswers(function(err, results) {
     if (err) {
       res.status(400).send(err)
+    } else {
+      res.send(results.rows)
     }
-    res.send(results.rows)
-  }, question_id)
+  }, question_id, count)
+});
+
+//get questions
+app.get('/qa/:product_id/:count?', (req, res) => {
+  const {product_id, count} = req.params;
+  queries.listQuestions(function(err, results) {
+    if (err) {
+      res.status(400).send(err)
+    } else {
+      res.send(results.rows)
+    }
+  }, product_id, count)
 });
 
 //post a question

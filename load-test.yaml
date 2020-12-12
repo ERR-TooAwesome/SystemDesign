@@ -1,0 +1,39 @@
+config:
+  target: "http://localhost:3003"
+  http:
+    pool: 100
+  phases:
+    - duration: 30
+      arrivalRate: 5
+      name: Warm up
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 15
+      name: Ramp up load
+    - duration: 120
+      arrivalRate: 25
+      name: Sustained load
+  processor: "./load-test.js"
+
+scenarios:
+  - name: 'Get questions/answers'
+    flow:
+      - get:
+          url: '/qa/{{$randomNumber(1,10)}}'
+      - get:
+          url: '/qa/{$randomNumber(1,10)}/answers'
+  - name: 'Post questions/answers'
+    flow:
+     - function: "generatePostBody"
+     - post:
+        url: '/qa/{{$randomNumber(1,10)}}'
+        json:
+          body: "{{ body }}"
+          name: "{{ name }}"
+          email: "{{ email }}"
+     - post:
+        url: '/qa/{{$randomNumber(1,10)}}/answers'
+        json:
+          body: "{{ body }}"
+          name: "{{ name }}"
+          email: "{{ email }}"

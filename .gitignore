@@ -4,3 +4,4 @@ answers.csv
 newrelic.js
 newrelic_agent.log
 package-lock.json
+seed.sh

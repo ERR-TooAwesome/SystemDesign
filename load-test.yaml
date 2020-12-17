@@ -16,24 +16,24 @@ config:
   processor: "./load-test.js"
 
 scenarios:
-  - name: 'Get questions/answers'
+  - name: "Get questions/answers"
     flow:
       - get:
-          url: '/qa/{{$randomNumber(1,10)}}'
+          url: "/qa/{{$randomNumber(1,1000)}}"
       - get:
-          url: '/qa/{$randomNumber(1,10)}/answers'
-  - name: 'Post questions/answers'
+          url: "/qa/{$randomNumber(1,1000)}/answers"
+  - name: "Post questions/answers"
     flow:
-     - function: "generatePostBody"
-     - post:
-        url: '/qa/{{$randomNumber(1,10)}}'
-        json:
-          body: "{{ body }}"
-          name: "{{ name }}"
-          email: "{{ email }}"
-     - post:
-        url: '/qa/{{$randomNumber(1,10)}}/answers'
-        json:
-          body: "{{ body }}"
-          name: "{{ name }}"
-          email: "{{ email }}"
+      - function: "generatePostBody"
+      - post:
+          url: "/qa/{{$randomNumber(1,1000)}}"
+          json:
+            body: "{{ body }}"
+            name: "{{ name }}"
+            email: "{{ email }}"
+      - post:
+          url: "/qa/{{$randomNumber(1,1000)}}/answers"
+          json:
+            body: "{{ body }}"
+            name: "{{ name }}"
+            email: "{{ email }}"

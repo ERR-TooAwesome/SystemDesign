@@ -54,17 +54,36 @@ app.get("/qa/:product_id/:count?", (req, res) => {
           results: questionsMiddleman,
         };
         results.rows.forEach((item) => {
-          questionsMiddleman.push({
+          let answers = {};
+          queries.answeredQuestions(
+            function (err, data) {
+              if (err) {
+                res.status(400).send(err);
+              } else {
+                // answers[item.answer_id] = data.rows
+                // console.log(data.rows.answer_id)
+                res.status(200);
+              }
+            }, item.question_id
+          )
+            questionsMiddleman.push({
             question_id: item.question_id,
             question_body: item.question_body,
             question_date: item.question_date,
             asker_name: item.asker_name,
             question_helpfulness: item.question_helpfulness,
             reported: item.reported,
-            answers: {}
+            answers: {
+              id: item.answer_id,
+              body: item.body,
+              date: item.date,
+              answerer_name: item.answerer_name,
+              helpfulness: item.helpfulness,
+              photos: []
+            }
           });
         });
-        res.status(200).send(questionsObj);
+        res.status(200).send(results.rows);
       }
     },
     product_id,

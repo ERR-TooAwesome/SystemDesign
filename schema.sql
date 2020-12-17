@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS questions (
   question_body TEXT NOT NULL,
   question_date text,
   asker_name TEXT NOT NULL,
-  helpfulness INTEGER DEFAULT 0,
+  question_helpfulness INTEGER DEFAULT 0,
   email TEXT NOT NULL,
   reported INTEGER DEFAULT 0
 );
